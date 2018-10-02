@@ -1,0 +1,174 @@
+buildscript {
+    ext.kotlin_version = '1.2.71'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url 'http://dl.bintray.com/jetbrains/intellij-plugin-service'
+        }
+        maven {
+            url "https://dl.bintray.com/ferranpons/maven"
+        }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.ferranpons:twitter-gradle-plugin:1.0.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.6.2"
+        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.14"
+        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.1.0"
+    }
+}
+
+plugins {
+    id "org.jetbrains.intellij" version "0.3.4"
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC7-3"
+    id 'org.jetbrains.kotlin.jvm' version '1.2.51'
+}
+
+apply plugin: 'idea'
+apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'twitter-gradle-plugin'
+apply plugin: "org.jlleitschuh.gradle.ktlint"
+apply plugin: 'com.novoda.bintray-release'
+
+ext.versionProps = new Properties()
+versionProps.load(new FileInputStream(rootDir.absolutePath + "/version.properties"))
+
+def versionMajor = Integer.parseInt(versionProps['MAJOR'] as String)
+def versionMinor = Integer.parseInt(versionProps['MINOR'] as String)
+def versionPatch = Integer.parseInt(versionProps['PATCH'] as String)
+
+def isArtifactoryDeploy = "true" == System.getenv("ARTIFACTORY_DEPLOY")
+
+static def getDate() {
+    return new Date().format('yyyyMMddHH')
+}
+
+def buildVersion
+if (isArtifactoryDeploy) {
+    buildVersion = "${versionMajor}.${versionMinor}.${versionPatch}-${getDate()}-SNAPSHOT"
+} else {
+    buildVersion = "${versionMajor}.${versionMinor}.${versionPatch}"
+}
+
+sourceCompatibility = 1.8
+
+group 'com.schibsted.protein'
+version buildVersion
+
+def intelliJVersion = 'IC-2018.1.6'
+
+intellij {
+    version intelliJVersion
+    plugins 'coverage'
+    pluginName 'Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger'
+}
+
+publish {
+    userOrg = 'schibstedspain'
+    groupId = 'com.schibsted.spain.protein'
+    artifactId = 'protein'
+    publishVersion = "${buildVersion}"
+    desc = 'Protein is a plugin for intelliJ that automates the build of "Agents" for Android in Kotlin. It generates the code for Retrofit based on a Swagger endpoint.'
+    website = 'https://github.com/SchibstedSpain/protein'
+}
+
+publishPlugin {
+    username project.hasProperty('plugin_username') ? project.plugin_username : System.getenv()['PLUGIN_USERNAME']
+    password project.hasProperty('plugin_password') ? project.plugin_password : System.getenv()['PLUGIN_PASSWORD']
+    channels 'stable'
+}
+
+patchPluginXml {
+    version buildVersion
+    sinceBuild '141.0'
+    untilBuild intelliJVersion
+    pluginDescription new File('media/plugin_description.html').text
+    changeNotes new File('CHANGELOG.md').text
+}
+
+twitterPlugin {
+    consumerKey = System.getenv()['TWITTER_API_KEY']
+    consumerSecret = System.getenv()['TWITTER_API_SECRET']
+    accessToken = System.getenv()['TWITTER_ACCESS_TOKEN']
+    accessTokenSecret = System.getenv()['TWITTER_ACCESS_TOKEN_SECRET']
+    message = "New Protein version ${versionMajor}.${versionMinor}.${versionPatch} pushed to the IntelliJ Plugin repository. Protein is a Kotlin code generator for Retrofit 2 and RxJava 2 based on Swagger #kotlin #intelliJ #plugin https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder"
+}
+
+tasks.withType(Javadoc).all {
+    enabled = false
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+detekt {
+    version = "1.0.0.RC7-3"
+    profile("main") {
+        input = "$projectDir/src/main/kotlin"
+        config = "$projectDir/config/detekt/detekt-config.yml"
+        output = "$projectDir/build/reports/detekt/detekt.xml"
+        filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    }
+}
+
+ktlint {
+    reporters = ["PLAIN", "CHECKSTYLE"]
+}
+
+dependencies {
+    compile 'com.squareup:kotlinpoet:1.0.0-RC1'
+    compile "io.reactivex.rxjava2:rxjava:2.1.16"
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+
+    def jacksonVersion = '2.8.4'
+    compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    def swaggerVersion = '1.5.16'
+    compile "io.swagger:swagger-annotations:$swaggerVersion"
+    compile("io.swagger:swagger-core:$swaggerVersion") {
+        exclude group: 'org.slf4j'
+    }
+    compile("io.swagger:swagger-models:$swaggerVersion") {
+        exclude group: 'org.slf4j'
+    }
+    compile("io.swagger:swagger-parser:1.0.33") {
+        exclude group: 'org.slf4j'
+    }
+
+    compile 'commons-io:commons-io:2.5'
+
+    compile("com.bugsnag:bugsnag:3.+") {
+        exclude group: 'org.slf4j'
+    }
+
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.1.3-2'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}

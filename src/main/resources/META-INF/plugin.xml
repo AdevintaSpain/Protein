@@ -1,0 +1,89 @@
+<idea-plugin>
+  <id>com.schibsted.protein</id>
+  <name>Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</name>
+  <version>1.0.0</version>
+  <vendor email="ferran.pons@schibsted.com" url="http://www.schibsted.es">Schibsted Spain</vendor>
+
+  <description><![CDATA[
+
+<p><em>Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</em></p>
+
+<p>Protein is a code generator plugin for intelliJ that automates the build of components for Android.
+    It generates the Kotlin code for Retrofit based on a Swagger schema endpoint.
+    This plugin only allows you to create an API Rest Interface and the Models for Retrofit 2 and RxJava 2.</p>
+
+<p>For many time at <a href="http://www.schibsted.es">Schibsted Spain</a> we struggled with the idea of making a good and maintainable architecture for Android.
+    It's been some time until we got one that fits with our needs but we still have a lot of errors and issues that human beings do every time we make manual work.
+    That's were we came to the idea of automatization and make new components with all we need including tests and data sources.</p>
+
+<p>Protein is our approach to work better, be more productive and reliable.</p>
+
+<h3 id="features">Features</h3>
+
+<ul>
+    <li>Easy interface</li>
+
+    <li>Agent, Mapper, Model and DataSource auto-generated</li>
+
+    <li>Swagger integration: create Data Sources based on swagger documentation</li>
+
+    <li>IntelliJ and Android Studio compatible</li>
+</ul>
+
+<h3 id="download">Download</h3><br/>
+
+<p>You can download it through the intelliJ/AndroidStudio plugin interface</p>
+
+<h3 id="whomadethis">Who made this</h3><br/><br/>
+
+<p><a href="https://github.com/ferranpons"><img src="https://avatars2.githubusercontent.com/u/1225463?v=3&s=460" alt="Ferran Pons" height="100" width="100" /></a></p><br/>
+<p><a href="https://github.com/ferranpons">Ferran Pons</a></p><br/>
+
+    ]]></description>
+
+  <change-notes><![CDATA[
+      Now create Enums that are on the models schema.
+      Return values are not well generated.
+      Upgraded libraries and core IDE version compatibility.
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="141.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+
+  <depends optional="true">org.jetbrains.android</depends>
+  <depends>org.jetbrains.kotlin</depends>
+  <depends>com.intellij.modules.java</depends>
+  <depends optional="true">com.intellij.modules.androidstudio</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <applicationService serviceInterface="protein.ide.component.ProteinSettings"
+                        serviceImplementation="protein.ide.component.ProteinSettings"/>
+  </extensions>
+
+  <application-components>
+    <component>
+      <implementation-class>protein.ide.component.ProteinComponent</implementation-class>
+    </component>
+  </application-components>
+
+  <project-components>
+    <component>
+      <implementation-class>protein.ide.component.ProteinUpdateComponent</implementation-class>
+    </component>
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+    <action id="protein_add_new_api_interface" class="protein.actions.AddNewComponentAction" text="Protein - Add new API Rest Interface"
+            description="Add new API Rest Interface and Models" icon="/icons/add_agent_icon.png">
+      <add-to-group group-id="NewJavaSpecialFile" anchor="last" />
+      <add-to-group group-id="MainToolBar" anchor="last" />
+      <add-to-group group-id="NavBarToolBar" anchor="last" />
+    </action>
+  </actions>
+
+</idea-plugin>
