@@ -36,9 +36,8 @@ Protein is a plugin for intelliJ that automates the build of "Agents" for Androi
 
 ### Background
 
->
->*Protein:* A large molecule composed of one or more chains of amino acids in a specific order; the order is determined by the base sequence of nucleotides in the gene coding for the protein. Proteins are required for the structure, function, and regulation of the body’s cells, tissues, and organs, and each protein has unique functions. Examples are hormones, enzymes, and antibodies.
->
+> *Protein:* A large molecule composed of one or more chains of amino acids in a specific order; the order is determined by the base sequence of nucleotides in the gene coding for the protein. Proteins are required for the structure, function, and regulation of the body’s cells, tissues, and organs, and each protein has unique functions. Examples are hormones, enzymes, and antibodies.
+
 
 This scientific definition defines quite good the objective of this Plugin in an abstract way.
 For many time at Schibsted Spain we struggled with the idea of making a good and maintainable architecture for Android.
@@ -66,14 +65,12 @@ or you can check: [https://plugins.jetbrains.com/plugin/10206-protein--android-c
 Alternatively, you can download a SNAPSHOT version with the latest features being developed.
 [https://bintray.com/schibstedspain/maven/protein#files/com/schibstedspain/protein](https://bintray.com/schibstedspain/maven/protein#files/com/schibstedspain/protein)
 
-
-### Build it yourself!
+### Build it yourself!
 
 1. If you want to build it locally you need download the latest version of IntelliJ Community
 [https://www.jetbrains.com/idea/download/#section=mac](https://www.jetbrains.com/idea/download/#section=mac)
 2. Clone this repository (git@github.com:SchibstedSpain/protein.git)
 3. Execute "RunIdea" gradle task
-
 
 Who made this
 --------------
