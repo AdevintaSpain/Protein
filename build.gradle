@@ -64,7 +64,7 @@ sourceCompatibility = 1.8
 group 'com.schibsted.protein'
 version buildVersion
 
-def intelliJVersion = 'IC-2018.1.6'
+def intelliJVersion = 'IC-182.4505.22'
 
 intellij {
     version intelliJVersion
