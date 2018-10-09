@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.schibsted.protein</id>
   <name>Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <vendor email="ferran.pons@schibsted.com" url="http://www.schibsted.es">Schibsted Spain</vendor>
 
   <description><![CDATA[
@@ -42,9 +42,9 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      Now create Enums that are on the models schema.
-      Return values are not well generated.
-      Upgraded libraries and core IDE version compatibility.
+      Now shows the modules from the current project active
+      When using a kotlin reserved name on a model it changes its name to "Model"+"class name"
+      "Body" parameter now use the correct class reference
     ]]>
   </change-notes>
 
