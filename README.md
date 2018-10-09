@@ -53,17 +53,217 @@ Protein is our approach to work better, be more productive and reliable.
 * Swagger integration: create Data Sources based on swagger documentation
 * IntelliJ and Android Studio compatible
 
+### Example
+
+##### Swagger json code
+```json
+{
+  "swagger":"2.0",
+  "info":{
+    "version":"1"
+  },
+  "host":"localhost:8000",
+  "basePath":"/",
+  "tags":[
+    {
+      "name":"favorites-controller",
+      "description":"Favorites Controller"
+    }
+  ],
+  "paths":{
+    "/favorites":{
+      "get":{
+        "tags":[
+          "favorites-controller"
+        ],
+        "summary":"Get all favorites for this user",
+        "operationId":"getFavorites",
+        "consumes":[
+          "application/json"
+        ],
+        "produces":[
+          "application/json;charset=UTF-8"
+        ],
+        "parameters":[
+          {
+            "name":"Authorization",
+            "in":"header",
+            "description":"Authorization",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/GetFavoritesResponse"
+            }
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        }
+      }
+    },
+    "/favorites/{adId}":{
+      "put":{
+        "tags":[
+          "favorites-controller"
+        ],
+        "summary":"Save favorite",
+        "operationId":"saveFavorite",
+        "consumes":[
+          "application/json"
+        ],
+        "produces":[
+          "application/json;charset=UTF-8"
+        ],
+        "parameters":[
+          {
+            "name":"adId",
+            "in":"path",
+            "description":"adId",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"Authorization",
+            "in":"header",
+            "description":"Authorization",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK"
+          },
+          "201":{
+            "description":"Created"
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        }
+      },
+      "delete":{
+        "tags":[
+          "favorites-controller"
+        ],
+        "summary":"Delete favorite",
+        "operationId":"deleteFavorite",
+        "consumes":[
+          "application/json"
+        ],
+        "produces":[
+          "application/json;charset=UTF-8"
+        ],
+        "parameters":[
+          {
+            "name":"adId",
+            "in":"path",
+            "description":"adId",
+            "required":true,
+            "type":"string"
+          },
+          {
+            "name":"Authorization",
+            "in":"header",
+            "description":"Authorization",
+            "required":true,
+            "type":"string"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK"
+          },
+          "204":{
+            "description":"No Content"
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "definitions":{
+    "FavoriteAd":{
+      "type":"object",
+      "properties":{
+        "adId":{
+          "type":"string"
+        },
+        "userId":{
+          "type":"string"
+        }
+      }
+    },
+    "GetFavoritesResponse":{
+      "type":"object",
+      "properties":{
+        "favorites":{
+          "type":"array",
+          "items":{
+            "$ref":"#/definitions/FavoriteAd"
+          }
+        }
+      }
+    },
+    "Single«ResponseEntity«GetFavoritesResponse»»":{
+      "type":"object"
+    }
+  }
+}
+```
+
+##### Retrofit2 + RxJava2 Interface generated in Kotlin
+```kotlin
+package com.mycompany.mylibrary
+
+import io.reactivex.Completable
+import io.reactivex.Single
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PUT
+import retrofit2.http.Path
+
+interface componentNameApiInterface {
+    @GET("/favorites")
+    fun getFavorites(): Single<GetFavoritesResponse>
+
+    @PUT("/favorites/{adId}")
+    fun saveFavorite(@Path("adId") adId: String): Completable
+
+    @DELETE("/favorites/{adId}")
+    fun deleteFavorite(@Path("adId") adId: String): Completable
+}
+
+```
+
 ### Download
 
 #### RELEASE
 
 You can download it through the intelliJ/AndroidStudio plugin interface
 or you can check: [https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder)
-
-#### SNAPSHOT
-
-Alternatively, you can download a SNAPSHOT version with the latest features being developed.
-[https://bintray.com/schibstedspain/maven/protein#files/com/schibstedspain/protein](https://bintray.com/schibstedspain/maven/protein#files/com/schibstedspain/protein)
 
 ### Build it yourself!
 
