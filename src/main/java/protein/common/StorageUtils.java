@@ -1,7 +1,10 @@
 package protein.common;
 
 import com.bugsnag.Bugsnag;
+import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -9,7 +12,8 @@ import com.squareup.kotlinpoet.FileSpec;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
+import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -20,18 +24,20 @@ public class StorageUtils {
     @NotNull
     public static ListModel getFoldersList() {
         DefaultListModel listModel = new DefaultListModel();
-
-        VirtualFile[] contentRoots = ProjectRootManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getContentRoots();
-        for (VirtualFile virtualFile : contentRoots) {
-            if (virtualFile.isDirectory() && virtualFile.isWritable()) {
-                listModel.addElement(virtualFile.getName());
+        Project currentProject = (Project)DataManager.getInstance().getDataContext().getData(DataConstants.PROJECT);
+        if (currentProject != null) {
+            VirtualFile[] contentRoots = ProjectRootManager.getInstance(currentProject).getContentRoots();
+            for (VirtualFile virtualFile : contentRoots) {
+                if (virtualFile.isDirectory() && virtualFile.isWritable()) {
+                    listModel.addElement(virtualFile.getName());
+                }
             }
-        }
 
-        VirtualFile[] contentRootsFromAllModules = ProjectRootManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getContentRootsFromAllModules()[0].getChildren();
-        for (VirtualFile virtualFile : contentRootsFromAllModules) {
-            if (virtualFile.isDirectory() && virtualFile.isWritable()) {
-                listModel.addElement(virtualFile.getName());
+            VirtualFile[] contentRootsFromAllModules = ProjectRootManager.getInstance(currentProject).getContentRootsFromAllModules()[0].getChildren();
+            for (VirtualFile virtualFile : contentRootsFromAllModules) {
+                if (virtualFile.isDirectory() && virtualFile.isWritable()) {
+                    listModel.addElement(virtualFile.getName());
+                }
             }
         }
         return listModel;
