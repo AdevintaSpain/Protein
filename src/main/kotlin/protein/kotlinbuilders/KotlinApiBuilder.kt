@@ -17,6 +17,7 @@ import io.reactivex.Single
 import io.swagger.models.HttpMethod
 import io.swagger.models.ModelImpl
 import io.swagger.models.Operation
+import io.swagger.models.RefModel
 import io.swagger.models.Swagger
 import io.swagger.models.parameters.BodyParameter
 import io.swagger.models.parameters.Parameter
@@ -268,20 +269,26 @@ class KotlinApiBuilder(
   }
 
   private fun getBodyParameterSpec(parameter: Parameter): ParameterSpec {
-    val bodyParameterSpec: ParameterSpec
-    val bodyParameter = try {
-      (parameter as BodyParameter).schema as ModelImpl
-    } catch (e: ClassCastException) {
-      ModelImpl()
-    }
-    bodyParameterSpec = if (bodyParameter.type == STRING_SWAGGER_TYPE) {
-      ParameterSpec.builder(parameter.name, String::class)
+    if ((parameter as BodyParameter).schema is RefModel) {
+      return ParameterSpec
+        .builder(parameter.name, ClassName.bestGuess((parameter.schema as RefModel).simpleRef.capitalize()))
         .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
     } else {
-      ParameterSpec.builder(parameter.name, ClassName.bestGuess(parameter.name.capitalize()))
-        .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
+      val bodyParameterSpec: ParameterSpec
+      val bodyParameter = try {
+        parameter.schema as ModelImpl
+      } catch (e: ClassCastException) {
+        ModelImpl()
+      }
+      bodyParameterSpec = if (bodyParameter.type == STRING_SWAGGER_TYPE) {
+        ParameterSpec.builder(parameter.name, String::class)
+          .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
+      } else {
+        ParameterSpec.builder(parameter.name, ClassName.bestGuess(parameter.name.capitalize()))
+          .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
+      }
+      return bodyParameterSpec
     }
-    return bodyParameterSpec
   }
 
   private fun getReturnedClass(
