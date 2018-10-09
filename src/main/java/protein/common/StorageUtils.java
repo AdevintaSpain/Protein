@@ -25,17 +25,19 @@ public class StorageUtils {
     public static ListModel getFoldersList() {
         DefaultListModel listModel = new DefaultListModel();
         Project currentProject = (Project)DataManager.getInstance().getDataContext().getData(DataConstants.PROJECT);
-        VirtualFile[] contentRoots = ProjectRootManager.getInstance(currentProject).getContentRoots();
-        for (VirtualFile virtualFile : contentRoots) {
-            if (virtualFile.isDirectory() && virtualFile.isWritable()) {
-                listModel.addElement(virtualFile.getName());
+        if (currentProject != null) {
+            VirtualFile[] contentRoots = ProjectRootManager.getInstance(currentProject).getContentRoots();
+            for (VirtualFile virtualFile : contentRoots) {
+                if (virtualFile.isDirectory() && virtualFile.isWritable()) {
+                    listModel.addElement(virtualFile.getName());
+                }
             }
-        }
 
-        VirtualFile[] contentRootsFromAllModules = ProjectRootManager.getInstance(currentProject).getContentRootsFromAllModules()[0].getChildren();
-        for (VirtualFile virtualFile : contentRootsFromAllModules) {
-            if (virtualFile.isDirectory() && virtualFile.isWritable()) {
-                listModel.addElement(virtualFile.getName());
+            VirtualFile[] contentRootsFromAllModules = ProjectRootManager.getInstance(currentProject).getContentRootsFromAllModules()[0].getChildren();
+            for (VirtualFile virtualFile : contentRootsFromAllModules) {
+                if (virtualFile.isDirectory() && virtualFile.isWritable()) {
+                    listModel.addElement(virtualFile.getName());
+                }
             }
         }
         return listModel;
