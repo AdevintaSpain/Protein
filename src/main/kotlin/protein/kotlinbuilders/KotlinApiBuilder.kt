@@ -158,9 +158,15 @@ class KotlinApiBuilder(
 
     if (swaggerModel.definitions != null && !swaggerModel.definitions.isEmpty()) {
       for (definition in swaggerModel.definitions) {
-        classNameList.add(definition.key)
 
-        val modelClassTypeSpec = TypeSpec.classBuilder(definition.key).addModifiers(KModifier.DATA)
+        var modelClassTypeSpec: TypeSpec.Builder
+        try {
+          modelClassTypeSpec = TypeSpec.classBuilder(definition.key).addModifiers(KModifier.DATA)
+          classNameList.add(definition.key)
+        } catch (error: IllegalArgumentException) {
+          modelClassTypeSpec = TypeSpec.classBuilder("Model" + definition.key.capitalize()).addModifiers(KModifier.DATA)
+          classNameList.add("Model" + definition.key.capitalize())
+        }
 
         if (definition.value != null && definition.value.properties != null) {
           val primaryConstructor = FunSpec.constructorBuilder()
@@ -299,16 +305,19 @@ class KotlinApiBuilder(
       if (operation.value.responses[OK_RESPONSE]?.schema != null &&
         operation.value.responses[OK_RESPONSE]?.schema is RefProperty) {
         val refProperty = (operation.value.responses[OK_RESPONSE]?.schema as RefProperty)
-        val responseClassName = refProperty.simpleRef
+        var responseClassName = refProperty.simpleRef
+        responseClassName = getValidClassName(responseClassName, refProperty)
 
-        if (responseClassName != null && classNameList.contains(responseClassName)) {
+        if (classNameList.contains(responseClassName)) {
           return Single::class.asClassName().parameterizedBy(TypeVariableName.invoke(responseClassName))
         }
       } else if (operation.value.responses[OK_RESPONSE]?.schema != null &&
         operation.value.responses[OK_RESPONSE]?.schema is ArrayProperty) {
         val refProperty = (operation.value.responses[OK_RESPONSE]?.schema as ArrayProperty)
-        val responseClassName = (refProperty.items as RefProperty).simpleRef
-        if (responseClassName != null && classNameList.contains(responseClassName)) {
+        var responseClassName = (refProperty.items as RefProperty).simpleRef
+        responseClassName = getValidClassName(responseClassName, (refProperty.items as RefProperty))
+
+        if (classNameList.contains(responseClassName)) {
           return Single::class.asClassName().parameterizedBy(
             List::class.asClassName().parameterizedBy(TypeVariableName.invoke(responseClassName))
           )
@@ -319,6 +328,18 @@ class KotlinApiBuilder(
     }
 
     return Completable::class.asClassName()
+  }
+
+  private fun getValidClassName(responseClassName: String, refProperty: RefProperty): String {
+    var className = responseClassName
+    try {
+      TypeSpec.classBuilder(className)
+    } catch (error: IllegalArgumentException) {
+      if (refProperty.simpleRef != null) {
+        className = "Model" + refProperty.simpleRef.capitalize()
+      }
+    }
+    return className
   }
 
   private fun getKotlinClassTypeName(type: String): TypeName {
