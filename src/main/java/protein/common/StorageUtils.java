@@ -44,14 +44,14 @@ public class StorageUtils {
     }
 
     public static void generateFiles(@Nullable String moduleName, @Nullable String packageName, @NotNull com.squareup.kotlinpoet.TypeSpec classTypeSpec) {
-        FileSpec kotlinFile = FileSpec.builder(packageName, classTypeSpec.getName()).addType(classTypeSpec).build();
-
         try {
+            FileSpec kotlinFile = FileSpec.builder(packageName, classTypeSpec.getName()).addType(classTypeSpec).build();
+            Project currentProject = (Project)DataManager.getInstance().getDataContext().getData(DataConstants.PROJECT);
             String projectPath;
             if (moduleName != null && !"".equals(moduleName)) {
-                projectPath = FileEditorManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getProject().getBasePath() + "/" + moduleName + "/src/main/java/";
+                projectPath = FileEditorManager.getInstance(currentProject).getProject().getBasePath() + "/" + moduleName + "/src/main/java/";
             } else {
-                projectPath = FileEditorManager.getInstance(ProjectManager.getInstance().getOpenProjects()[0]).getProject().getBasePath() + "/src/main/java/";
+                projectPath = FileEditorManager.getInstance(currentProject).getProject().getBasePath() + "/src/main/java/";
             }
             Path path = FileSystems.getDefault().getPath(projectPath);
             if (!Files.exists(path)) {
