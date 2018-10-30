@@ -22,6 +22,7 @@ import io.swagger.models.Swagger
 import io.swagger.models.parameters.BodyParameter
 import io.swagger.models.parameters.Parameter
 import io.swagger.models.parameters.PathParameter
+import io.swagger.models.parameters.QueryParameter
 import io.swagger.models.properties.ArrayProperty
 import io.swagger.models.properties.Property
 import io.swagger.models.properties.RefProperty
@@ -268,7 +269,7 @@ class KotlinApiBuilder(
         }
         "query" -> {
           val queryParameterSpec =
-            ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as PathParameter).type))
+            ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as QueryParameter).type))
               .addAnnotation(
                 AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
           methodParameters.add(queryParameterSpec)
