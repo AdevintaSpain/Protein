@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.schibsted.protein</id>
   <name>Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</name>
-  <version>1.0.1</version>
+  <version>1.1.0</version>
   <vendor email="ferran.pons@schibsted.com" url="http://www.schibsted.es">Schibsted Spain</vendor>
 
   <description><![CDATA[
@@ -42,7 +42,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      Corrected generation of files with the correct active project path
+      Query params not correctly added on the retrofit interface. Kotlin version 1.3.0.
     ]]>
   </change-notes>
 
