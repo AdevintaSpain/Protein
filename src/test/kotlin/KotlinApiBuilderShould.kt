@@ -1,5 +1,5 @@
 import config.ConfigurationForTests
-import junit.framework.Assert.assertEquals
+import junit.framework.TestCase.assertEquals
 import mocks.OPENSTF_INTERFACE_MOCK
 import mocks.PET_STORE_INTERFACE_MOCK
 import org.junit.Test

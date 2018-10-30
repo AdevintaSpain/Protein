@@ -11,6 +11,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "import retrofit2.http.POST\n" +
   "import retrofit2.http.PUT\n" +
   "import retrofit2.http.Path\n" +
+  "import retrofit2.http.Query\n" +
   "\n" +
   "interface componentNameApiInterface {\n" +
   "    @PUT(\"/pet\")\n" +
@@ -20,10 +21,10 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "    fun addPet(@Body body: Pet): Completable\n" +
   "\n" +
   "    @GET(\"/pet/findByStatus\")\n" +
-  "    fun findPetsByStatus(): Single<List<Pet>>\n" +
+  "    fun findPetsByStatus(@Query(\"status\") status: List): Single<List<Pet>>\n" +
   "\n" +
   "    @GET(\"/pet/findByTags\")\n" +
-  "    fun findPetsByTags(): Single<List<Pet>>\n" +
+  "    fun findPetsByTags(@Query(\"tags\") tags: List): Single<List<Pet>>\n" +
   "\n" +
   "    @GET(\"/pet/{petId}\")\n" +
   "    fun getPetById(@Path(\"petId\") petId: Int): Single<Pet>\n" +
@@ -59,7 +60,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "    fun createUsersWithListInput(@Body body: Body): Completable\n" +
   "\n" +
   "    @GET(\"/user/login\")\n" +
-  "    fun loginUser(): Completable\n" +
+  "    fun loginUser(@Query(\"username\") username: String, @Query(\"password\") password: String): Completable\n" +
   "\n" +
   "    @GET(\"/user/logout\")\n" +
   "    fun logoutUser(): Completable\n" +
