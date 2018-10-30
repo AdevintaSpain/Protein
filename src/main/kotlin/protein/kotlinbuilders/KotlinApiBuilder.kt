@@ -262,7 +262,7 @@ class KotlinApiBuilder(
   ): Iterable<ParameterSpec> {
     val methodParameters = ArrayList<ParameterSpec>()
     for (parameter in operation.value.parameters) {
-      when(parameter.`in`) {
+      when (parameter.`in`) {
         "body" -> {
           val bodyParameterSpec: ParameterSpec = getBodyParameterSpec(parameter)
           methodParameters.add(bodyParameterSpec)
