@@ -22,6 +22,7 @@ import io.swagger.models.Swagger
 import io.swagger.models.parameters.BodyParameter
 import io.swagger.models.parameters.Parameter
 import io.swagger.models.parameters.PathParameter
+import io.swagger.models.parameters.QueryParameter
 import io.swagger.models.properties.ArrayProperty
 import io.swagger.models.properties.Property
 import io.swagger.models.properties.RefProperty
@@ -30,12 +31,13 @@ import io.swagger.parser.SwaggerParser
 import protein.common.StorageUtils
 import protein.tracking.ErrorTracking
 import retrofit2.http.Body
-import retrofit2.http.Path
-import retrofit2.http.GET
-import retrofit2.http.PUT
-import retrofit2.http.POST
-import retrofit2.http.PATCH
 import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.io.FileNotFoundException
 import java.lang.IllegalStateException
 import java.net.UnknownHostException
@@ -260,15 +262,25 @@ class KotlinApiBuilder(
   ): Iterable<ParameterSpec> {
     val methodParameters = ArrayList<ParameterSpec>()
     for (parameter in operation.value.parameters) {
-      if (parameter.`in` == "body") {
-        val bodyParameterSpec: ParameterSpec = getBodyParameterSpec(parameter)
-        methodParameters.add(bodyParameterSpec)
-      } else if (parameter.`in` == "path") {
-        val pathParameterSpec =
-          ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as PathParameter).type))
-            .addAnnotation(
-              AnnotationSpec.builder(Path::class).addMember("\"${parameter.name}\"").build()).build()
-        methodParameters.add(pathParameterSpec)
+      when (parameter.`in`) {
+        "body" -> {
+          val bodyParameterSpec: ParameterSpec = getBodyParameterSpec(parameter)
+          methodParameters.add(bodyParameterSpec)
+        }
+        "path" -> {
+          val pathParameterSpec =
+            ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as PathParameter).type))
+              .addAnnotation(
+                AnnotationSpec.builder(Path::class).addMember("\"${parameter.name}\"").build()).build()
+          methodParameters.add(pathParameterSpec)
+        }
+        "query" -> {
+          val queryParameterSpec =
+            ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as QueryParameter).type))
+              .addAnnotation(
+                AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
+          methodParameters.add(queryParameterSpec)
+        }
       }
     }
     return methodParameters

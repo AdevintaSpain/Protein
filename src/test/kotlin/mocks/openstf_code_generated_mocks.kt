@@ -9,19 +9,20 @@ const val OPENSTF_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "import retrofit2.http.GET\n" +
   "import retrofit2.http.POST\n" +
   "import retrofit2.http.Path\n" +
+  "import retrofit2.http.Query\n" +
   "\n" +
   "interface componentNameApiInterface {\n" +
   "    @GET(\"/user\")\n" +
   "    fun getUser(): Single<UserResponse>\n" +
   "\n" +
   "    @GET(\"/user/devices\")\n" +
-  "    fun getUserDevices(): Single<DeviceListResponse>\n" +
+  "    fun getUserDevices(@Query(\"fields\") fields: String): Single<DeviceListResponse>\n" +
   "\n" +
   "    @POST(\"/user/devices\")\n" +
   "    fun addUserDevice(@Body device: AddUserDevicePayload): Completable\n" +
   "\n" +
   "    @GET(\"/user/devices/{serial}\")\n" +
-  "    fun getUserDeviceBySerial(@Path(\"serial\") serial: String): Single<DeviceResponse>\n" +
+  "    fun getUserDeviceBySerial(@Path(\"serial\") serial: String, @Query(\"fields\") fields: String): Single<DeviceResponse>\n" +
   "\n" +
   "    @DELETE(\"/user/devices/{serial}\")\n" +
   "    fun deleteUserDeviceBySerial(@Path(\"serial\") serial: String): Completable\n" +
@@ -36,8 +37,8 @@ const val OPENSTF_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "    fun getUserAccessTokens(): Single<AccessTokensResponse>\n" +
   "\n" +
   "    @GET(\"/devices\")\n" +
-  "    fun getDevices(): Single<DeviceListResponse>\n" +
+  "    fun getDevices(@Query(\"fields\") fields: String): Single<DeviceListResponse>\n" +
   "\n" +
   "    @GET(\"/devices/{serial}\")\n" +
-  "    fun getDeviceBySerial(@Path(\"serial\") serial: String): Single<DeviceResponse>\n" +
+  "    fun getDeviceBySerial(@Path(\"serial\") serial: String, @Query(\"fields\") fields: String): Single<DeviceResponse>\n" +
   "}\n"
