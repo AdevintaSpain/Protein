@@ -127,7 +127,7 @@ ktlint {
 }
 
 dependencies {
-    compile 'com.squareup:kotlinpoet:1.0.0-RC1'
+    compile 'com.squareup:kotlinpoet:1.0.0-RC2'
     compile "io.reactivex.rxjava2:rxjava:2.1.16"
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
 
