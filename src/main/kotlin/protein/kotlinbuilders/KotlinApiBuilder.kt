@@ -30,7 +30,14 @@ import io.swagger.models.properties.StringProperty
 import io.swagger.parser.SwaggerParser
 import protein.common.StorageUtils
 import protein.tracking.ErrorTracking
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.io.FileNotFoundException
 import java.lang.IllegalStateException
 import java.net.UnknownHostException
