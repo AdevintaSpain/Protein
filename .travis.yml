@@ -35,7 +35,6 @@ install: true  # if we don't skip install, ./gradlew assemble is invoked, but th
 
 before_script:
   - export PATH=$TRAVIS_BUILD_DIR/bin:$PATH  # ensure our tools are prefered over included ones.
-  - export ARTIFACTORY_DEPLOY="true"
 
 script:
   - ./gradlew buildPlugin
