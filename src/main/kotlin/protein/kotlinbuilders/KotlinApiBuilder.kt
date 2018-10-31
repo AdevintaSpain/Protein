@@ -275,10 +275,16 @@ class KotlinApiBuilder(
           methodParameters.add(pathParameterSpec)
         }
         "query" -> {
-          val queryParameterSpec =
-            ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as QueryParameter).type))
+          val queryParameterSpec: ParameterSpec = if ((parameter as QueryParameter).type == ARRAY_SWAGGER_TYPE) {
+            ParameterSpec.builder(
+              parameter.name, List::class.asClassName().parameterizedBy(getKotlinClassTypeName(parameter.items.type))
+            ).addAnnotation(
+                AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
+          } else {
+            ParameterSpec.builder(parameter.name, getKotlinClassTypeName(parameter.type))
               .addAnnotation(
                 AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
+          }
           methodParameters.add(queryParameterSpec)
         }
       }
