@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -n "$TRAVIS_TAG" ] && [["$ARTIFACTORY_DEPLOY"=="false"]]; then
+if [ -n "$TRAVIS_TAG" ]; then
     ./gradlew createTweet
 else
     echo "Tweet not created"

@@ -1,1 +1,1 @@
-Query params not correctly added on the retrofit interface. Kotlin version 1.3.0.
+Query params when is a List it does not add the type of list.

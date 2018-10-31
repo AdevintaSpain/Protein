@@ -21,10 +21,10 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "    fun addPet(@Body body: Pet): Completable\n" +
   "\n" +
   "    @GET(\"/pet/findByStatus\")\n" +
-  "    fun findPetsByStatus(@Query(\"status\") status: List): Single<List<Pet>>\n" +
+  "    fun findPetsByStatus(@Query(\"status\") status: List<String>): Single<List<Pet>>\n" +
   "\n" +
   "    @GET(\"/pet/findByTags\")\n" +
-  "    fun findPetsByTags(@Query(\"tags\") tags: List): Single<List<Pet>>\n" +
+  "    fun findPetsByTags(@Query(\"tags\") tags: List<String>): Single<List<Pet>>\n" +
   "\n" +
   "    @GET(\"/pet/{petId}\")\n" +
   "    fun getPetById(@Path(\"petId\") petId: Int): Single<Pet>\n" +
