@@ -27,16 +27,16 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "    fun findPetsByTags(@Query(\"tags\") tags: List<String>): Single<List<Pet>>\n" +
   "\n" +
   "    @GET(\"/pet/{petId}\")\n" +
-  "    fun getPetById(@Path(\"petId\") petId: Int): Single<Pet>\n" +
+  "    fun getPetById(@Path(\"petId\") petId: Long): Single<Pet>\n" +
   "\n" +
   "    @POST(\"/pet/{petId}\")\n" +
-  "    fun updatePetWithForm(@Path(\"petId\") petId: Int): Completable\n" +
+  "    fun updatePetWithForm(@Path(\"petId\") petId: Long): Completable\n" +
   "\n" +
   "    @DELETE(\"/pet/{petId}\")\n" +
-  "    fun deletePet(@Path(\"petId\") petId: Int): Completable\n" +
+  "    fun deletePet(@Path(\"petId\") petId: Long): Completable\n" +
   "\n" +
   "    @POST(\"/pet/{petId}/uploadImage\")\n" +
-  "    fun uploadFile(@Path(\"petId\") petId: Int): Single<ApiResponse>\n" +
+  "    fun uploadFile(@Path(\"petId\") petId: Long): Single<ApiResponse>\n" +
   "\n" +
   "    @GET(\"/store/inventory\")\n" +
   "    fun getInventory(): Completable\n" +
@@ -45,19 +45,19 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "    fun placeOrder(@Body body: Order): Single<Order>\n" +
   "\n" +
   "    @GET(\"/store/order/{orderId}\")\n" +
-  "    fun getOrderById(@Path(\"orderId\") orderId: Int): Single<Order>\n" +
+  "    fun getOrderById(@Path(\"orderId\") orderId: Long): Single<Order>\n" +
   "\n" +
   "    @DELETE(\"/store/order/{orderId}\")\n" +
-  "    fun deleteOrder(@Path(\"orderId\") orderId: Int): Completable\n" +
+  "    fun deleteOrder(@Path(\"orderId\") orderId: Long): Completable\n" +
   "\n" +
   "    @POST(\"/user\")\n" +
   "    fun createUser(@Body body: User): Completable\n" +
   "\n" +
   "    @POST(\"/user/createWithArray\")\n" +
-  "    fun createUsersWithArrayInput(@Body body: Body): Completable\n" +
+  "    fun createUsersWithArrayInput(@Body body: List<User>): Completable\n" +
   "\n" +
   "    @POST(\"/user/createWithList\")\n" +
-  "    fun createUsersWithListInput(@Body body: Body): Completable\n" +
+  "    fun createUsersWithListInput(@Body body: List<User>): Completable\n" +
   "\n" +
   "    @GET(\"/user/login\")\n" +
   "    fun loginUser(@Query(\"username\") username: String, @Query(\"password\") password: String): Completable\n" +
