@@ -229,6 +229,8 @@ class KotlinApiBuilder(
           }
 
           try {
+            val doc = ((listOf(operation.value.summary + "\n") + getMethodParametersDocs(operation)).joinToString("\n")).trim()
+
             val returnedClass = getReturnedClass(operation, classNameList)
             val methodParameters = getMethodParameters(operation)
             val funSpec = FunSpec.builder(operation.value.operationId)
@@ -236,6 +238,7 @@ class KotlinApiBuilder(
               .addAnnotation(annotationSpec)
               .addParameters(methodParameters)
               .returns(returnedClass)
+              .addKdoc("$doc\n")
               .build()
 
             apiInterfaceTypeSpec.addFunction(funSpec)
@@ -245,6 +248,10 @@ class KotlinApiBuilder(
         }
       }
     }
+  }
+
+  private fun getMethodParametersDocs(operation: MutableMap.MutableEntry<HttpMethod, Operation>): Iterable<String> {
+    return operation.value.parameters.filterNot { it.description.isNullOrBlank() }.map { "@param ${it.name} ${it.description}" }
   }
 
   private fun getTypeName(modelProperty: MutableMap.MutableEntry<String, Property>): TypeName {
