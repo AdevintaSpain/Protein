@@ -18,12 +18,17 @@ import io.swagger.models.HttpMethod
 import io.swagger.models.ModelImpl
 import io.swagger.models.Operation
 import io.swagger.models.RefModel
+import io.swagger.models.ArrayModel
 import io.swagger.models.Swagger
 import io.swagger.models.parameters.BodyParameter
 import io.swagger.models.parameters.Parameter
 import io.swagger.models.parameters.PathParameter
 import io.swagger.models.parameters.QueryParameter
 import io.swagger.models.properties.ArrayProperty
+import io.swagger.models.properties.DoubleProperty
+import io.swagger.models.properties.FloatProperty
+import io.swagger.models.properties.IntegerProperty
+import io.swagger.models.properties.LongProperty
 import io.swagger.models.properties.Property
 import io.swagger.models.properties.RefProperty
 import io.swagger.models.properties.StringProperty
@@ -51,6 +56,7 @@ class KotlinApiBuilder(
     const val OK_RESPONSE = "200"
     const val ARRAY_SWAGGER_TYPE = "array"
     const val INTEGER_SWAGGER_TYPE = "integer"
+    const val NUMBER_SWAGGER_TYPE = "number"
     const val STRING_SWAGGER_TYPE = "string"
     const val BOOLEAN_SWAGGER_TYPE = "boolean"
     const val REF_SWAGGER_TYPE = "ref"
@@ -249,78 +255,83 @@ class KotlinApiBuilder(
   }
 
   private fun getTypeName(modelProperty: MutableMap.MutableEntry<String, Property>): TypeName {
+    val property = modelProperty.value
     return when {
-      modelProperty.value.type == REF_SWAGGER_TYPE ->
-        TypeVariableName.invoke((modelProperty.value as RefProperty).simpleRef)
-      modelProperty.value.type == ARRAY_SWAGGER_TYPE -> {
-        val typeProperty = try {
-          ((modelProperty.value as ArrayProperty).items as RefProperty).simpleRef
-        } catch (e: ClassCastException) {
-          ((modelProperty.value as ArrayProperty).items.type)
-        }
-        return List::class.asClassName().parameterizedBy(getKotlinClassTypeName(typeProperty))
+      property.type == REF_SWAGGER_TYPE ->
+        TypeVariableName.invoke((property as RefProperty).simpleRef).requiredOrNullable(property.required)
+
+      property.type == ARRAY_SWAGGER_TYPE -> {
+        val arrayProperty = property as ArrayProperty
+        getTypedArray(arrayProperty.items).requiredOrNullable(arrayProperty.required)
       }
-      else -> getKotlinClassTypeName(modelProperty.value.type)
+      else -> getKotlinClassTypeName(property.type, property.format).requiredOrNullable(property.required)
     }
   }
 
   private fun getMethodParameters(
     operation: MutableMap.MutableEntry<HttpMethod, Operation>
   ): Iterable<ParameterSpec> {
-    val methodParameters = ArrayList<ParameterSpec>()
-    for (parameter in operation.value.parameters) {
+    return operation.value.parameters.mapNotNull { parameter ->
+      // Transform parameters in the format foo.bar to fooBar
+      val name = parameter.name.split('.').mapIndexed { index, s -> if (index > 0) s.capitalize() else s }.joinToString("")
       when (parameter.`in`) {
         "body" -> {
-          val bodyParameterSpec: ParameterSpec = getBodyParameterSpec(parameter)
-          methodParameters.add(bodyParameterSpec)
+          ParameterSpec.builder(name, getBodyParameterSpec(parameter))
+            .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
         }
         "path" -> {
-          val pathParameterSpec =
-            ParameterSpec.builder(parameter.name, getKotlinClassTypeName((parameter as PathParameter).type))
-              .addAnnotation(
-                AnnotationSpec.builder(Path::class).addMember("\"${parameter.name}\"").build()).build()
-          methodParameters.add(pathParameterSpec)
+          val type = getKotlinClassTypeName((parameter as PathParameter).type, parameter.format).requiredOrNullable(parameter.required)
+          ParameterSpec.builder(name, type)
+            .addAnnotation(AnnotationSpec.builder(Path::class).addMember("\"${parameter.name}\"").build()).build()
         }
         "query" -> {
-          val queryParameterSpec: ParameterSpec = if ((parameter as QueryParameter).type == ARRAY_SWAGGER_TYPE) {
-            ParameterSpec.builder(
-              parameter.name, List::class.asClassName().parameterizedBy(getKotlinClassTypeName(parameter.items.type))
-            ).addAnnotation(
-                AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
+          if ((parameter as QueryParameter).type == ARRAY_SWAGGER_TYPE) {
+            val type = List::class.asClassName().parameterizedBy(getKotlinClassTypeName(parameter.items.type)).requiredOrNullable(parameter.required)
+            ParameterSpec.builder(name, type)
           } else {
-            ParameterSpec.builder(parameter.name, getKotlinClassTypeName(parameter.type))
-              .addAnnotation(
-                AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
-          }
-          methodParameters.add(queryParameterSpec)
+            val type = getKotlinClassTypeName(parameter.type, parameter.format).requiredOrNullable(parameter.required)
+            ParameterSpec.builder(name, type)
+          }.addAnnotation(AnnotationSpec.builder(Query::class).addMember("\"${parameter.name}\"").build()).build()
+        }
+        else -> null
+      }
+    }
+  }
+
+  private fun getBodyParameterSpec(parameter: Parameter): TypeName {
+    val bodyParameter = parameter as BodyParameter
+    val schema = bodyParameter.schema
+
+    return when (schema) {
+      is RefModel -> ClassName.bestGuess(schema.simpleRef.capitalize()).requiredOrNullable(parameter.required)
+
+      is ArrayModel -> getTypedArray(schema.items).requiredOrNullable(parameter.required)
+
+      else -> {
+        val bodyParameter1 = parameter.schema as? ModelImpl ?: ModelImpl()
+
+        if (STRING_SWAGGER_TYPE == bodyParameter1.type) {
+          String::class.asClassName().requiredOrNullable(parameter.required)
+        } else {
+          ClassName.bestGuess(parameter.name.capitalize()).requiredOrNullable(parameter.required)
         }
       }
     }
-    return methodParameters
   }
 
-  private fun getBodyParameterSpec(parameter: Parameter): ParameterSpec {
-    if ((parameter as BodyParameter).schema is RefModel) {
-      return ParameterSpec
-        .builder(parameter.name, ClassName.bestGuess((parameter.schema as RefModel).simpleRef.capitalize()))
-        .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
-    } else {
-      val bodyParameterSpec: ParameterSpec
-      val bodyParameter = try {
-        parameter.schema as ModelImpl
-      } catch (e: ClassCastException) {
-        ModelImpl()
-      }
-      bodyParameterSpec = if (bodyParameter.type == STRING_SWAGGER_TYPE) {
-        ParameterSpec.builder(parameter.name, String::class)
-          .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
-      } else {
-        ParameterSpec.builder(parameter.name, ClassName.bestGuess(parameter.name.capitalize()))
-          .addAnnotation(AnnotationSpec.builder(Body::class).build()).build()
-      }
-      return bodyParameterSpec
+  private fun getTypedArray(items: Property): TypeName {
+    val typeProperty = when (items) {
+      is LongProperty -> TypeVariableName.invoke(Long::class.simpleName!!)
+      is IntegerProperty -> TypeVariableName.invoke(Int::class.simpleName!!)
+      is FloatProperty -> TypeVariableName.invoke(Float::class.simpleName!!)
+      is DoubleProperty -> TypeVariableName.invoke(Double::class.simpleName!!)
+      is RefProperty -> TypeVariableName.invoke(items.simpleRef)
+      else -> getKotlinClassTypeName(items.type, items.format)
     }
+    return List::class.asClassName().parameterizedBy(typeProperty)
   }
+
+  private fun TypeName.requiredOrNullable(required: Boolean) = if (required) this else asNullable()
 
   private fun getReturnedClass(
     operation: MutableMap.MutableEntry<HttpMethod, Operation>,
@@ -367,11 +378,17 @@ class KotlinApiBuilder(
     return className
   }
 
-  private fun getKotlinClassTypeName(type: String): TypeName {
+  private fun getKotlinClassTypeName(type: String, format: String? = null): TypeName {
     return when (type) {
       ARRAY_SWAGGER_TYPE -> TypeVariableName.invoke(List::class.simpleName!!)
-      INTEGER_SWAGGER_TYPE -> TypeVariableName.invoke(Int::class.simpleName!!)
       STRING_SWAGGER_TYPE -> TypeVariableName.invoke(String::class.simpleName!!)
+      NUMBER_SWAGGER_TYPE -> TypeVariableName.invoke(Double::class.simpleName!!)
+      INTEGER_SWAGGER_TYPE -> {
+        when (format) {
+          "int64" -> TypeVariableName.invoke(Long::class.simpleName!!)
+          else -> TypeVariableName.invoke(Int::class.simpleName!!)
+        }
+      }
       else -> TypeVariableName.invoke(type.capitalize())
     }
   }

@@ -24,7 +24,7 @@ const val OPENSTF_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param fields Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response\n" +
   "     */\n" +
   "    @GET(\"/user/devices\")\n" +
-  "    fun getUserDevices(@Query(\"fields\") fields: String): Single<DeviceListResponse>\n" +
+  "    fun getUserDevices(@Query(\"fields\") fields: String?): Single<DeviceListResponse>\n" +
   "\n" +
   "    /**\n" +
   "     * Add a device to a user\n" +
@@ -41,7 +41,7 @@ const val OPENSTF_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param fields Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response\n" +
   "     */\n" +
   "    @GET(\"/user/devices/{serial}\")\n" +
-  "    fun getUserDeviceBySerial(@Path(\"serial\") serial: String, @Query(\"fields\") fields: String): Single<DeviceResponse>\n" +
+  "    fun getUserDeviceBySerial(@Path(\"serial\") serial: String, @Query(\"fields\") fields: String?): Single<DeviceResponse>\n" +
   "\n" +
   "    /**\n" +
   "     * Delete User Device\n" +
@@ -79,7 +79,7 @@ const val OPENSTF_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param fields Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response\n" +
   "     */\n" +
   "    @GET(\"/devices\")\n" +
-  "    fun getDevices(@Query(\"fields\") fields: String): Single<DeviceListResponse>\n" +
+  "    fun getDevices(@Query(\"fields\") fields: String?): Single<DeviceListResponse>\n" +
   "\n" +
   "    /**\n" +
   "     * Device Information\n" +
@@ -88,5 +88,5 @@ const val OPENSTF_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param fields Fields query parameter takes a comma seperated list of fields. Only listed field will be return in response\n" +
   "     */\n" +
   "    @GET(\"/devices/{serial}\")\n" +
-  "    fun getDeviceBySerial(@Path(\"serial\") serial: String, @Query(\"fields\") fields: String): Single<DeviceResponse>\n" +
+  "    fun getDeviceBySerial(@Path(\"serial\") serial: String, @Query(\"fields\") fields: String?): Single<DeviceResponse>\n" +
   "}\n"

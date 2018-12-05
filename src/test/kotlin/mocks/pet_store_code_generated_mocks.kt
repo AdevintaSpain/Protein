@@ -52,7 +52,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param petId ID of pet to return\n" +
   "     */\n" +
   "    @GET(\"/pet/{petId}\")\n" +
-  "    fun getPetById(@Path(\"petId\") petId: Int): Single<Pet>\n" +
+  "    fun getPetById(@Path(\"petId\") petId: Long): Single<Pet>\n" +
   "\n" +
   "    /**\n" +
   "     * Updates a pet in the store with form data\n" +
@@ -62,7 +62,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param status Updated status of the pet\n" +
   "     */\n" +
   "    @POST(\"/pet/{petId}\")\n" +
-  "    fun updatePetWithForm(@Path(\"petId\") petId: Int): Completable\n" +
+  "    fun updatePetWithForm(@Path(\"petId\") petId: Long): Completable\n" +
   "\n" +
   "    /**\n" +
   "     * Deletes a pet\n" +
@@ -70,7 +70,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param petId Pet id to delete\n" +
   "     */\n" +
   "    @DELETE(\"/pet/{petId}\")\n" +
-  "    fun deletePet(@Path(\"petId\") petId: Int): Completable\n" +
+  "    fun deletePet(@Path(\"petId\") petId: Long): Completable\n" +
   "\n" +
   "    /**\n" +
   "     * uploads an image\n" +
@@ -80,7 +80,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param file file to upload\n" +
   "     */\n" +
   "    @POST(\"/pet/{petId}/uploadImage\")\n" +
-  "    fun uploadFile(@Path(\"petId\") petId: Int): Single<ApiResponse>\n" +
+  "    fun uploadFile(@Path(\"petId\") petId: Long): Single<ApiResponse>\n" +
   "\n" +
   "    /**\n" +
   "     * Returns pet inventories by status\n" +
@@ -102,7 +102,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param orderId ID of pet that needs to be fetched\n" +
   "     */\n" +
   "    @GET(\"/store/order/{orderId}\")\n" +
-  "    fun getOrderById(@Path(\"orderId\") orderId: Int): Single<Order>\n" +
+  "    fun getOrderById(@Path(\"orderId\") orderId: Long): Single<Order>\n" +
   "\n" +
   "    /**\n" +
   "     * Delete purchase order by ID\n" +
@@ -110,7 +110,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param orderId ID of the order that needs to be deleted\n" +
   "     */\n" +
   "    @DELETE(\"/store/order/{orderId}\")\n" +
-  "    fun deleteOrder(@Path(\"orderId\") orderId: Int): Completable\n" +
+  "    fun deleteOrder(@Path(\"orderId\") orderId: Long): Completable\n" +
   "\n" +
   "    /**\n" +
   "     * Create user\n" +
@@ -126,7 +126,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param body List of user object\n" +
   "     */\n" +
   "    @POST(\"/user/createWithArray\")\n" +
-  "    fun createUsersWithArrayInput(@Body body: Body): Completable\n" +
+  "    fun createUsersWithArrayInput(@Body body: List<User>): Completable\n" +
   "\n" +
   "    /**\n" +
   "     * Creates list of users with given input array\n" +
@@ -134,7 +134,7 @@ const val PET_STORE_INTERFACE_MOCK = "package com.mycompany.mylibrary\n" +
   "     * @param body List of user object\n" +
   "     */\n" +
   "    @POST(\"/user/createWithList\")\n" +
-  "    fun createUsersWithListInput(@Body body: Body): Completable\n" +
+  "    fun createUsersWithListInput(@Body body: List<User>): Completable\n" +
   "\n" +
   "    /**\n" +
   "     * Logs user into the system\n" +
