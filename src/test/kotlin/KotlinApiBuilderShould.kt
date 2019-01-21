@@ -58,7 +58,7 @@ class KotlinApiBuilderShould {
             "     *\n" +
             "     * @param Authorization Authorization\n" +
             "     */\n" +
-            "    @GET(\"/favorites\")\n" +
+            "    @GET(\"favorites\")\n" +
             "    fun getFavorites(): Single<GetFavoritesResponse>\n" +
             "\n" +
             "    /**\n" +
@@ -67,7 +67,7 @@ class KotlinApiBuilderShould {
             "     * @param adId adId\n" +
             "     * @param Authorization Authorization\n" +
             "     */\n" +
-            "    @PUT(\"/favorites/{adId}\")\n" +
+            "    @PUT(\"favorites/{adId}\")\n" +
             "    fun saveFavorite(@Path(\"adId\") adId: String): Completable\n" +
             "\n" +
             "    /**\n" +
@@ -76,7 +76,7 @@ class KotlinApiBuilderShould {
             "     * @param adId adId\n" +
             "     * @param Authorization Authorization\n" +
             "     */\n" +
-            "    @DELETE(\"/favorites/{adId}\")\n" +
+            "    @DELETE(\"favorites/{adId}\")\n" +
             "    fun deleteFavorite(@Path(\"adId\") adId: String): Completable\n" +
             "}\n",
         kotlinApiBuilder.getGeneratedApiInterfaceString())

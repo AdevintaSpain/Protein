@@ -216,16 +216,16 @@ class KotlinApiBuilder(
 
           val annotationSpec: AnnotationSpec = when {
             operation.key.name.contains(
-              "GET") -> AnnotationSpec.builder(GET::class).addMember("\"${path.key}\"").build()
+              "GET") -> AnnotationSpec.builder(GET::class).addMember("\"${path.key.removePrefix("/")}\"").build()
             operation.key.name.contains(
-              "POST") -> AnnotationSpec.builder(POST::class).addMember("\"${path.key}\"").build()
+              "POST") -> AnnotationSpec.builder(POST::class).addMember("\"${path.key.removePrefix("/")}\"").build()
             operation.key.name.contains(
-              "PUT") -> AnnotationSpec.builder(PUT::class).addMember("\"${path.key}\"").build()
+              "PUT") -> AnnotationSpec.builder(PUT::class).addMember("\"${path.key.removePrefix("/")}\"").build()
             operation.key.name.contains(
-              "PATCH") -> AnnotationSpec.builder(PATCH::class).addMember("\"${path.key}\"").build()
+              "PATCH") -> AnnotationSpec.builder(PATCH::class).addMember("\"${path.key.removePrefix("/")}\"").build()
             operation.key.name.contains(
-              "DELETE") -> AnnotationSpec.builder(DELETE::class).addMember("\"${path.key}\"").build()
-            else -> AnnotationSpec.builder(GET::class).addMember("\"${path.key}\"").build()
+              "DELETE") -> AnnotationSpec.builder(DELETE::class).addMember("\"${path.key.removePrefix("/")}\"").build()
+            else -> AnnotationSpec.builder(GET::class).addMember("\"${path.key.removePrefix("/")}\"").build()
           }
 
           try {
