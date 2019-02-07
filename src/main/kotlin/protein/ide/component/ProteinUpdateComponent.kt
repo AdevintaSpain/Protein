@@ -27,10 +27,10 @@ class ProteinUpdateComponent(project: Project) : AbstractProjectComponent(projec
     private var channel = "com.schibsted.protein"
     private const val updateContent = """
     <br/>
-    Thank you for downloading <b>Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</b>!<br>
-    If you find my plugin helpful,
-    <b><a href="https://plugins.jetbrains.com/plugin/10206-protein--kotlin-code-generator-for-retrofit2-and-rxjava2-based-on-swagger">
-    Please give me a star on JetBrains Plugin Store</a></b><br/>
+    Thank you for downloading <b>Protein</b>!<br>
+    If you find this plugin helpful,
+    <b><a href="https://github.com/SchibstedSpain/Protein">
+    Please give us a star on Github</a></b><br/>
     If you find any issue, <b><a href="https://github.com/SchibstedSpain/Protein/issues/new/choose">Feel free to raise a issue</a></b><br/>
     See <b><a href="https://github.com/SchibstedSpain/Protein/blob/master/CHANGELOG.md">Changelog</a></b>
     for more details.
