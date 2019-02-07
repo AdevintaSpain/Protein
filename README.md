@@ -10,7 +10,7 @@
 <div style="display:block; height: 168px;">
 * <i>Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</i> *
 
-[![Version](https://img.shields.io/jetbrains/plugin/v/10206.svg)](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder) [![Downloads](https://img.shields.io/jetbrains/plugin/d/10206.svg)](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder) [ ![Protein Trending](http://starveller.sigsev.io/api/repos/SchibstedSpain/Protein/badge) ](http://starveller.sigsev.io/SchibstedSpain/Protein)
+[![Version](https://img.shields.io/jetbrains/plugin/v/10206.svg)](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder) [![Downloads](https://img.shields.io/jetbrains/plugin/d/10206.svg)](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder)
 
 Protein is a plugin for intelliJ that automates the build of "Agents" for Android in Kotlin. It generates the code for Retrofit based on a Swagger endpoint.
 
