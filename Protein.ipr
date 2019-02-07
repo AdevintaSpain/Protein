@@ -3,7 +3,7 @@
   <component name="CheckStyle-IDEA">
     <option name="configuration">
       <map>
-        <entry key="checkstyle-version" value="8.12" />
+        <entry key="checkstyle-version" value="8.14" />
         <entry key="copy-libs" value="false" />
         <entry key="location-0" value="BUNDLED:(bundled):Sun Checks" />
         <entry key="location-1" value="BUNDLED:(bundled):Google Checks" />
@@ -98,9 +98,6 @@
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
-  </component>
-  <component name="SvnBranchConfigurationManager">
-    <option name="mySupportsUserInfoFilter" value="true" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
