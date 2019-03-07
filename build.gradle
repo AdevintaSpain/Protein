@@ -13,6 +13,9 @@ buildscript {
         maven {
             url "https://dl.bintray.com/ferranpons/maven"
         }
+        maven {
+            url "https://dl.bintray.com/schibstedspain/maven"
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -111,6 +114,9 @@ tasks.withType(Javadoc).all {
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+      url "https://dl.bintray.com/schibstedspain/maven"
+    }
 }
 
 detekt {
@@ -131,6 +137,7 @@ dependencies {
     compile 'com.squareup:kotlinpoet:1.0.0-RC2'
     compile "io.reactivex.rxjava2:rxjava:2.1.16"
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile "com.schibsted.spain:retroswagger:1.0.0"
 
     def jacksonVersion = '2.8.4'
     compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"

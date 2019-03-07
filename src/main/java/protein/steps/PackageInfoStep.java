@@ -2,13 +2,13 @@ package protein.steps;
 
 import com.intellij.ui.wizard.WizardNavigationState;
 import com.intellij.ui.wizard.WizardStep;
+import com.schibsted.spain.retroswagger.lib.RetroswaggerApiBuilder;
+import com.schibsted.spain.retroswagger.lib.RetroswaggerApiConfiguration;
+import com.schibsted.spain.retroswagger.lib.RetroswaggerErrorTracking;
 import protein.AddComponentWizardModel;
 import protein.common.Settings;
 import protein.common.SettingsManager;
-import protein.kotlinbuilders.KotlinApiBuilder;
-import protein.kotlinbuilders.ProteinApiConfiguration;
 import protein.tracking.BugsnagErrorTracking;
-import protein.tracking.ErrorTracking;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -27,7 +27,7 @@ public class PackageInfoStep extends WizardStep<AddComponentWizardModel> {
     private JLabel packageNameLabel;
     private JTextField componentNameTextField;
     private JTextField domainTextField;
-    private ErrorTracking errorTracking = new BugsnagErrorTracking();
+    private RetroswaggerErrorTracking errorTracking = new BugsnagErrorTracking();
 
     @Override
     public JComponent prepare(WizardNavigationState wizardNavigationState) {
@@ -126,16 +126,18 @@ public class PackageInfoStep extends WizardStep<AddComponentWizardModel> {
     }
 
     private void buildKotlinApi() {
-        ProteinApiConfiguration configuration = new ProteinApiConfiguration(
+        RetroswaggerApiConfiguration configuration = new RetroswaggerApiConfiguration(
                 this.serviceEndPointTextField.getText(),
                 this.swaggerUrlTextField.getText(),
                 Settings.getInstance().getPackageName(),
                 toFirstUpperCase(this.componentNameTextField.getText()),
                 Settings.getInstance().getModuleName(),
-                ""
+                "",
+                false
         );
-        KotlinApiBuilder kotlinApiBuilder = new KotlinApiBuilder(configuration, errorTracking);
+
+        RetroswaggerApiBuilder kotlinApiBuilder = new RetroswaggerApiBuilder(configuration, errorTracking);
         kotlinApiBuilder.build();
-        kotlinApiBuilder.generateFiles();
+        //kotlinApiBuilder.generateFiles();
     }
 }
