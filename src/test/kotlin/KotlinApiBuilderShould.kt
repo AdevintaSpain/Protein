@@ -1,46 +1,49 @@
+import com.schibsted.spain.retroswagger.lib.RetroswaggerApiBuilder
+import com.schibsted.spain.retroswagger.lib.RetroswaggerApiConfiguration
 import config.ConfigurationForTests
 import junit.framework.TestCase.assertEquals
 import mocks.OPENSTF_INTERFACE_MOCK
 import mocks.PET_STORE_INTERFACE_MOCK
 import org.junit.Test
-import protein.kotlinbuilders.KotlinApiBuilder
-import protein.kotlinbuilders.ProteinApiConfiguration
 import tracking.ConsoleLogTracking
 
 class KotlinApiBuilderShould {
 
-  private val favoritesSchemaProteinConfig = ProteinApiConfiguration(
+  private val favoritesSchemaProteinConfig = RetroswaggerApiConfiguration(
       ConfigurationForTests.SERVICE_ENDPOINT,
       "",
       ConfigurationForTests.PACKAGE_NAME,
       ConfigurationForTests.COMPONENT_NAME,
       ConfigurationForTests.MODULE_NAME,
-      ConfigurationForTests.SWAGGER_FILE_FAVORITES
+      ConfigurationForTests.SWAGGER_FILE_FAVORITES,
+      true
   )
 
-  private val openStfSchemaProteinConfig = ProteinApiConfiguration(
+  private val openStfSchemaProteinConfig = RetroswaggerApiConfiguration(
       ConfigurationForTests.SERVICE_ENDPOINT,
       "",
       ConfigurationForTests.PACKAGE_NAME,
       ConfigurationForTests.COMPONENT_NAME,
       ConfigurationForTests.MODULE_NAME,
-      ConfigurationForTests.SWAGGER_FILE_OPENSTF
+      ConfigurationForTests.SWAGGER_FILE_OPENSTF,
+      true
   )
 
-  private val petStoreSchemaProteinConfig = ProteinApiConfiguration(
+  private val petStoreSchemaProteinConfig = RetroswaggerApiConfiguration(
       ConfigurationForTests.SERVICE_ENDPOINT,
       "",
       ConfigurationForTests.PACKAGE_NAME,
       ConfigurationForTests.COMPONENT_NAME,
       ConfigurationForTests.MODULE_NAME,
-      ConfigurationForTests.SWAGGER_FILE_PET_STORE
+      ConfigurationForTests.SWAGGER_FILE_PET_STORE,
+      true
   )
 
   private val consoleLogTracking = ConsoleLogTracking()
 
   @Test
   fun createInterfaceIfFavoritesSchemaFileProvided() {
-    val kotlinApiBuilder = KotlinApiBuilder(favoritesSchemaProteinConfig, consoleLogTracking)
+    val kotlinApiBuilder = RetroswaggerApiBuilder(favoritesSchemaProteinConfig, consoleLogTracking)
     kotlinApiBuilder.build()
     assertEquals("",
         "package com.mycompany.mylibrary\n" +
@@ -79,24 +82,24 @@ class KotlinApiBuilderShould {
             "    @DELETE(\"favorites/{adId}\")\n" +
             "    fun deleteFavorite(@Path(\"adId\") adId: String): Completable\n" +
             "}\n",
-        kotlinApiBuilder.getGeneratedApiInterfaceString())
+        kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec().toString())
   }
 
   @Test
   fun createInterfaceIfOpenStfSchemaFileProvided() {
-    val kotlinApiBuilder = KotlinApiBuilder(openStfSchemaProteinConfig, consoleLogTracking)
+    val kotlinApiBuilder = RetroswaggerApiBuilder(openStfSchemaProteinConfig, consoleLogTracking)
     kotlinApiBuilder.build()
     assertEquals("",
         OPENSTF_INTERFACE_MOCK,
-        kotlinApiBuilder.getGeneratedApiInterfaceString())
+        kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec().toString())
   }
 
   @Test
   fun createInterfaceIfPetStoreSchemaFileProvided() {
-    val kotlinApiBuilder = KotlinApiBuilder(petStoreSchemaProteinConfig, consoleLogTracking)
+    val kotlinApiBuilder = RetroswaggerApiBuilder(petStoreSchemaProteinConfig, consoleLogTracking)
     kotlinApiBuilder.build()
     assertEquals("",
         PET_STORE_INTERFACE_MOCK,
-        kotlinApiBuilder.getGeneratedApiInterfaceString())
+        kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec().toString())
   }
 }
