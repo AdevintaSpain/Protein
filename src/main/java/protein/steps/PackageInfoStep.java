@@ -5,12 +5,17 @@ import com.intellij.ui.wizard.WizardStep;
 import com.schibsted.spain.retroswagger.lib.RetroswaggerApiBuilder;
 import com.schibsted.spain.retroswagger.lib.RetroswaggerApiConfiguration;
 import com.schibsted.spain.retroswagger.lib.RetroswaggerErrorTracking;
+import com.squareup.kotlinpoet.TypeSpec;
 import protein.AddComponentWizardModel;
 import protein.common.Settings;
 import protein.common.SettingsManager;
+import protein.common.StorageUtils;
 import protein.tracking.BugsnagErrorTracking;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComponent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -138,6 +143,22 @@ public class PackageInfoStep extends WizardStep<AddComponentWizardModel> {
 
         RetroswaggerApiBuilder kotlinApiBuilder = new RetroswaggerApiBuilder(configuration, errorTracking);
         kotlinApiBuilder.build();
-        //kotlinApiBuilder.generateFiles();
+        generateFiles(configuration, kotlinApiBuilder);
+    }
+
+    private void generateFiles(RetroswaggerApiConfiguration configuration, RetroswaggerApiBuilder retroswaggerApiBuilder) {
+        StorageUtils.generateFiles(
+            configuration.getModuleName(),
+            configuration.getPackageName(),
+            retroswaggerApiBuilder.getGeneratedApiInterfaceTypeSpec()
+        );
+
+        for (TypeSpec typeSpec : retroswaggerApiBuilder.getGeneratedModelListTypeSpec()) {
+            StorageUtils.generateFiles(configuration.getModuleName(), configuration.getPackageName(), typeSpec);
+        }
+
+        for (TypeSpec typeSpec : retroswaggerApiBuilder.getGeneratedEnumListTypeSpec()) {
+            StorageUtils.generateFiles(configuration.getModuleName(), configuration.getPackageName(), typeSpec);
+        }
     }
 }
