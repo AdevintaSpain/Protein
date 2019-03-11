@@ -46,12 +46,19 @@ That's were we came to the idea of automatization and make new components with a
 
 Protein is our approach to work better, be more productive and reliable.
 
+
+*<b>NOTE:</b> Protein is based on the library [Retroswagger](https://github.com/SchibstedSpain/Retroswagger) that is the core for the kotlin builder that parses swagger json and generates the kotlin code.*
+
 ### Features
 
 * Easy interface
 * Agent, Mapper, Model and DataSource auto-generated
 * Swagger integration: create Data Sources based on swagger documentation
 * IntelliJ and Android Studio compatible
+
+### Requirements
+
+To use it you need a Swagger schema endpoint (example: [http://petstore.swagger.io/v2/swagger.json](http://petstore.swagger.io/v2/swagger.json)).
 
 ### Example
 
@@ -235,6 +242,9 @@ Protein is our approach to work better, be more productive and reliable.
 ```
 
 ##### Retrofit2 + RxJava2 Interface generated in Kotlin
+
+It will generate the interface and the models related to that interface.
+
 ```kotlin
 package com.mycompany.mylibrary
 
