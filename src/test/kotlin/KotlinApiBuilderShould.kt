@@ -1,10 +1,12 @@
 import com.schibsted.spain.retroswagger.lib.RetroswaggerApiBuilder
 import com.schibsted.spain.retroswagger.lib.RetroswaggerApiConfiguration
+import com.squareup.kotlinpoet.TypeSpec
 import config.ConfigurationForTests
 import junit.framework.TestCase.assertEquals
 import mocks.OPENSTF_INTERFACE_MOCK
 import mocks.PET_STORE_INTERFACE_MOCK
 import org.junit.Test
+import protein.common.StorageUtils
 import tracking.ConsoleLogTracking
 
 class KotlinApiBuilderShould {
@@ -82,7 +84,7 @@ class KotlinApiBuilderShould {
             "    @DELETE(\"favorites/{adId}\")\n" +
             "    fun deleteFavorite(@Path(\"adId\") adId: String): Completable\n" +
             "}\n",
-        kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec().toString())
+      getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
   }
 
   @Test
@@ -91,7 +93,7 @@ class KotlinApiBuilderShould {
     kotlinApiBuilder.build()
     assertEquals("",
         OPENSTF_INTERFACE_MOCK,
-        kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec().toString())
+      getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
   }
 
   @Test
@@ -100,6 +102,10 @@ class KotlinApiBuilderShould {
     kotlinApiBuilder.build()
     assertEquals("",
         PET_STORE_INTERFACE_MOCK,
-        kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec().toString())
+        getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
+  }
+
+  private fun getGeneratedApiInterfaceString(apiInterfaceTypeSpec : TypeSpec): String {
+    return StorageUtils.generateString(petStoreSchemaProteinConfig.packageName, apiInterfaceTypeSpec)
   }
 }
