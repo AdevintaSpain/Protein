@@ -105,7 +105,7 @@ class KotlinApiBuilderShould {
         getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
   }
 
-  private fun getGeneratedApiInterfaceString(apiInterfaceTypeSpec : TypeSpec): String {
+  private fun getGeneratedApiInterfaceString(apiInterfaceTypeSpec: TypeSpec): String {
     return StorageUtils.generateString(petStoreSchemaProteinConfig.packageName, apiInterfaceTypeSpec)
   }
 }
