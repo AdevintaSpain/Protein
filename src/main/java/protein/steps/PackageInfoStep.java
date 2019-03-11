@@ -2,15 +2,20 @@ package protein.steps;
 
 import com.intellij.ui.wizard.WizardNavigationState;
 import com.intellij.ui.wizard.WizardStep;
+import com.schibsted.spain.retroswagger.lib.RetroswaggerApiBuilder;
+import com.schibsted.spain.retroswagger.lib.RetroswaggerApiConfiguration;
+import com.schibsted.spain.retroswagger.lib.RetroswaggerErrorTracking;
+import com.squareup.kotlinpoet.TypeSpec;
 import protein.AddComponentWizardModel;
 import protein.common.Settings;
 import protein.common.SettingsManager;
-import protein.kotlinbuilders.KotlinApiBuilder;
-import protein.kotlinbuilders.ProteinApiConfiguration;
+import protein.common.StorageUtils;
 import protein.tracking.BugsnagErrorTracking;
-import protein.tracking.ErrorTracking;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JComponent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -27,7 +32,7 @@ public class PackageInfoStep extends WizardStep<AddComponentWizardModel> {
     private JLabel packageNameLabel;
     private JTextField componentNameTextField;
     private JTextField domainTextField;
-    private ErrorTracking errorTracking = new BugsnagErrorTracking();
+    private RetroswaggerErrorTracking errorTracking = new BugsnagErrorTracking();
 
     @Override
     public JComponent prepare(WizardNavigationState wizardNavigationState) {
@@ -126,16 +131,34 @@ public class PackageInfoStep extends WizardStep<AddComponentWizardModel> {
     }
 
     private void buildKotlinApi() {
-        ProteinApiConfiguration configuration = new ProteinApiConfiguration(
+        RetroswaggerApiConfiguration configuration = new RetroswaggerApiConfiguration(
                 this.serviceEndPointTextField.getText(),
                 this.swaggerUrlTextField.getText(),
                 Settings.getInstance().getPackageName(),
                 toFirstUpperCase(this.componentNameTextField.getText()),
                 Settings.getInstance().getModuleName(),
-                ""
+                "",
+                false
         );
-        KotlinApiBuilder kotlinApiBuilder = new KotlinApiBuilder(configuration, errorTracking);
+
+        RetroswaggerApiBuilder kotlinApiBuilder = new RetroswaggerApiBuilder(configuration, errorTracking);
         kotlinApiBuilder.build();
-        kotlinApiBuilder.generateFiles();
+        generateFiles(configuration, kotlinApiBuilder);
+    }
+
+    private void generateFiles(RetroswaggerApiConfiguration configuration, RetroswaggerApiBuilder retroswaggerApiBuilder) {
+        StorageUtils.generateFiles(
+            configuration.getModuleName(),
+            configuration.getPackageName(),
+            retroswaggerApiBuilder.getGeneratedApiInterfaceTypeSpec()
+        );
+
+        for (TypeSpec typeSpec : retroswaggerApiBuilder.getGeneratedModelListTypeSpec()) {
+            StorageUtils.generateFiles(configuration.getModuleName(), configuration.getPackageName(), typeSpec);
+        }
+
+        for (TypeSpec typeSpec : retroswaggerApiBuilder.getGeneratedEnumListTypeSpec()) {
+            StorageUtils.generateFiles(configuration.getModuleName(), configuration.getPackageName(), typeSpec);
+        }
     }
 }

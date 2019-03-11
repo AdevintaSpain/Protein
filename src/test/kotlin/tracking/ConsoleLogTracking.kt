@@ -1,8 +1,8 @@
 package tracking
 
-import protein.tracking.ErrorTracking
+import com.schibsted.spain.retroswagger.lib.RetroswaggerErrorTracking
 
-class ConsoleLogTracking : ErrorTracking {
+class ConsoleLogTracking : RetroswaggerErrorTracking {
   override fun logException(throwable: Throwable) {
     System.out.print(throwable.message)
   }

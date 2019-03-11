@@ -8,11 +8,11 @@
 <img align="left" width="0" height="128px" hspace="10" />
 
 <div style="display:block; height: 168px;">
-* <i>Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</i> *
+* <i>IntelliJ Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</i> *
 
 [![Version](https://img.shields.io/jetbrains/plugin/v/10206.svg)](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder) [![Downloads](https://img.shields.io/jetbrains/plugin/d/10206.svg)](https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder)
 
-Protein is a plugin for intelliJ that automates the build of "Agents" for Android in Kotlin. It generates the code for Retrofit based on a Swagger endpoint.
+Protein is a plugin for intelliJ that automates the build of Retrofit "Interfaces" and "models" for Android in Kotlin. It generates the code for Retrofit based on a Swagger endpoint.
 
 <br/>
 <p align="center">
@@ -42,16 +42,23 @@ Protein is a plugin for intelliJ that automates the build of "Agents" for Androi
 This scientific definition defines quite good the objective of this Plugin in an abstract way.
 For many time at Schibsted Spain we struggled with the idea of making a good and maintainable architecture for Android.
 It's been some time until we got one that fits with our needs but we still have a lot of errors and issues that human beings do every time we make manual work.
-That's were we came to the idea of automatization and make new components with all we need including tests, data sources even use cases and Presenters.
+That's were we came to the idea of automatization and make new components with all we need.
 
 Protein is our approach to work better, be more productive and reliable.
+
+
+*<b>NOTE:</b> Protein is based on the library [Retroswagger](https://github.com/SchibstedSpain/Retroswagger) that is the core for the kotlin builder that parses swagger json and generates the kotlin code.*
 
 ### Features
 
 * Easy interface
-* Agent, Mapper, Model and DataSource auto-generated
-* Swagger integration: create Data Sources based on swagger documentation
+* Interface and Models auto-generated
+* Swagger integration: create code based on swagger documentation
 * IntelliJ and Android Studio compatible
+
+### Requirements
+
+To use it you need a Swagger schema endpoint (example: [http://petstore.swagger.io/v2/swagger.json](http://petstore.swagger.io/v2/swagger.json)).
 
 ### Example
 
@@ -235,6 +242,9 @@ Protein is our approach to work better, be more productive and reliable.
 ```
 
 ##### Retrofit2 + RxJava2 Interface generated in Kotlin
+
+It will generate the interface and the models related to that interface.
+
 ```kotlin
 package com.mycompany.mylibrary
 
