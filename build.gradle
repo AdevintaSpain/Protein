@@ -86,7 +86,7 @@ publish {
 }
 
 publishPlugin {
-    token project.hasProperty('plugin_token') ? project.plugin_username : System.getenv()['PLUGIN_TOKEN']
+    token project.hasProperty('plugin_token') ? project.plugin_token : System.getenv()['PLUGIN_TOKEN']
     channels 'stable'
 }
 
