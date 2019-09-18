@@ -29,10 +29,10 @@ class ProteinUpdateComponent(project: Project) : AbstractProjectComponent(projec
     <br/>
     Thank you for downloading <b>Protein</b>!<br>
     If you find this plugin helpful,
-    <b><a href="https://github.com/SchibstedSpain/Protein">
+    <b><a href="https://github.com/AdevintaSpain/Protein">
     Please give us a star on Github</a></b><br/>
-    If you find any issue, <b><a href="https://github.com/SchibstedSpain/Protein/issues/new/choose">Feel free to raise a issue</a></b><br/>
-    See <b><a href="https://github.com/SchibstedSpain/Protein/blob/master/CHANGELOG.md">Changelog</a></b>
+    If you find any issue, <b><a href="https://github.com/AdevintaSpain/Protein/issues/new/choose">Feel free to raise a issue</a></b><br/>
+    See <b><a href="https://github.com/AdevintaSpain/Protein/blob/master/CHANGELOG.md">Changelog</a></b>
     for more details.
     """
 

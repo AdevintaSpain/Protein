@@ -49,41 +49,41 @@ class KotlinApiBuilderShould {
     kotlinApiBuilder.build()
     assertEquals("",
         "package com.mycompany.mylibrary\n" +
-            "\n" +
-            "import io.reactivex.Completable\n" +
-            "import io.reactivex.Single\n" +
-            "import retrofit2.http.DELETE\n" +
-            "import retrofit2.http.GET\n" +
-            "import retrofit2.http.PUT\n" +
-            "import retrofit2.http.Path\n" +
-            "\n" +
-            "interface componentNameApiInterface {\n" +
-            "    /**\n" +
-            "     * Get all favorites for this user\n" +
-            "     *\n" +
-            "     * @param Authorization Authorization\n" +
-            "     */\n" +
-            "    @GET(\"favorites\")\n" +
-            "    fun getFavorites(): Single<GetFavoritesResponse>\n" +
-            "\n" +
-            "    /**\n" +
-            "     * Save favorite\n" +
-            "     *\n" +
-            "     * @param adId adId\n" +
-            "     * @param Authorization Authorization\n" +
-            "     */\n" +
-            "    @PUT(\"favorites/{adId}\")\n" +
-            "    fun saveFavorite(@Path(\"adId\") adId: String): Completable\n" +
-            "\n" +
-            "    /**\n" +
-            "     * Delete favorite\n" +
-            "     *\n" +
-            "     * @param adId adId\n" +
-            "     * @param Authorization Authorization\n" +
-            "     */\n" +
-            "    @DELETE(\"favorites/{adId}\")\n" +
-            "    fun deleteFavorite(@Path(\"adId\") adId: String): Completable\n" +
-            "}\n",
+          "\n" +
+          "import io.reactivex.Completable\n" +
+          "import io.reactivex.Single\n" +
+          "import retrofit2.http.DELETE\n" +
+          "import retrofit2.http.GET\n" +
+          "import retrofit2.http.PUT\n" +
+          "import retrofit2.http.Path\n" +
+          "\n" +
+          "interface componentNameApiInterface {\n" +
+          "  /**\n" +
+          "   * Get all favorites for this user\n" +
+          "   *\n" +
+          "   * @param Authorization Authorization\n" +
+          "   */\n" +
+          "  @GET(\"favorites\")\n" +
+          "  fun getFavorites(): Single<GetFavoritesResponse>\n" +
+          "\n" +
+          "  /**\n" +
+          "   * Save favorite\n" +
+          "   *\n" +
+          "   * @param adId adId\n" +
+          "   * @param Authorization Authorization\n" +
+          "   */\n" +
+          "  @PUT(\"favorites/{adId}\")\n" +
+          "  fun saveFavorite(@Path(\"adId\") adId: String): Completable\n" +
+          "\n" +
+          "  /**\n" +
+          "   * Delete favorite\n" +
+          "   *\n" +
+          "   * @param adId adId\n" +
+          "   * @param Authorization Authorization\n" +
+          "   */\n" +
+          "  @DELETE(\"favorites/{adId}\")\n" +
+          "  fun deleteFavorite(@Path(\"adId\") adId: String): Completable\n" +
+          "}\n",
       getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
   }
 
