@@ -29,7 +29,7 @@ buildscript {
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.3.4"
+    id "org.jetbrains.intellij" version "0.4.10"
     id "io.gitlab.arturbosch.detekt" version "1.0.0.RC7-3"
     id 'org.jetbrains.kotlin.jvm' version '1.2.51'
 }
@@ -72,7 +72,7 @@ def sinceVersion = '172.0'
 
 intellij {
     version intelliJVersion
-    plugins 'coverage'
+    plugins = ['java', 'coverage']
     pluginName 'Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger'
 }
 
@@ -86,8 +86,7 @@ publish {
 }
 
 publishPlugin {
-    username project.hasProperty('plugin_username') ? project.plugin_username : System.getenv()['PLUGIN_USERNAME']
-    password project.hasProperty('plugin_password') ? project.plugin_password : System.getenv()['PLUGIN_PASSWORD']
+    token project.hasProperty('intellijPublishToken') ? project.intellijPublishToken : System.getenv()['intellijPublishToken']
     channels 'stable'
 }
 
