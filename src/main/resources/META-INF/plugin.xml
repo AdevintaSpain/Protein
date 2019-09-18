@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.schibsted.protein</id>
   <name>Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger</name>
-  <version>1.1.3</version>
+  <version>1.2.0</version>
   <vendor email="ferran.pons@adevinta.com" url="http://www.adevinta.com">Adevinta Spain</vendor>
 
   <description><![CDATA[
@@ -42,7 +42,8 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      Removed `/` from the beginning of annotation paths
+      Upgraded Retroswagger to version 1.1.0 that uses the latest version of Kotlinpoet (1.3.0).
+      Also we have raised IDE compatibility version
     ]]>
   </change-notes>
 
