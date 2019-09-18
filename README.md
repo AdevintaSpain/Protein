@@ -1,7 +1,7 @@
 <!--
   Title: Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger
   Description: Protein is a plugin for intelliJ that automates the build of "Agents" for Android in Kotlin. It generates the code for Retrofit based on a Swagger endpoint.
-  Author: SchibstedSpain
+  Author: AdevintaSpain
   -->
 
 <img src="media/protein_logo.png" align="left" height="128px" />
@@ -40,14 +40,14 @@ Protein is a plugin for intelliJ that automates the build of Retrofit "Interface
 
 
 This scientific definition defines quite good the objective of this Plugin in an abstract way.
-For many time at Schibsted Spain we struggled with the idea of making a good and maintainable architecture for Android.
+For many time at Adevinta Spain we struggled with the idea of making a good and maintainable architecture for Android.
 It's been some time until we got one that fits with our needs but we still have a lot of errors and issues that human beings do every time we make manual work.
 That's were we came to the idea of automatization and make new components with all we need.
 
 Protein is our approach to work better, be more productive and reliable.
 
 
-*<b>NOTE:</b> Protein is based on the library [Retroswagger](https://github.com/SchibstedSpain/Retroswagger) that is the core for the kotlin builder that parses swagger json and generates the kotlin code.*
+*<b>NOTE:</b> Protein is based on the library [Retroswagger](https://github.com/AdevintaSpain/Retroswagger) that is the core for the kotlin builder that parses swagger json and generates the kotlin code.*
 
 ### Features
 
@@ -279,7 +279,7 @@ or you can check: [https://plugins.jetbrains.com/plugin/10206-protein--android-c
 
 1. If you want to build it locally you need download the latest version of IntelliJ Community
 [https://www.jetbrains.com/idea/download/#section=mac](https://www.jetbrains.com/idea/download/#section=mac)
-2. Clone this repository (git@github.com:SchibstedSpain/protein.git)
+2. Clone this repository (git@github.com:AdevintaSpain/protein.git)
 3. Execute "RunIdea" gradle task
 
 Who made this
@@ -306,7 +306,7 @@ Contribute
 ----------
 
 1. Create an issue to discuss about your idea
-2. [Fork it] (https://github.com/SchibstedSpain/protein/fork)
+2. [Fork it] (https://github.com/AdevintaSpain/protein/fork)
 3. Create your feature branch (`git checkout -b my-new-feature`)
 4. Commit your changes (`git commit -am 'Add some feature'`)
 5. Push to the branch (`git push origin my-new-feature`)
@@ -317,13 +317,13 @@ Contribute
 Bugs and Feedback
 -----------------
 
-For bugs, questions and discussions please use the [Github Issues](https://github.com/SchibstedSpain/protein/issues).
+For bugs, questions and discussions please use the [Github Issues](https://github.com/AdevintaSpain/protein/issues).
 
 
 License
 -------
 
-Copyright 2018 Schibsted Classified Media Spain S.L.
+Copyright 2018 Adevinta Spain S.L.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
