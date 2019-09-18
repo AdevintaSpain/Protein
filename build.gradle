@@ -86,8 +86,7 @@ publish {
 }
 
 publishPlugin {
-    username project.hasProperty('plugin_username') ? project.plugin_username : System.getenv()['PLUGIN_USERNAME']
-    password project.hasProperty('plugin_password') ? project.plugin_password : System.getenv()['PLUGIN_PASSWORD']
+    token project.hasProperty('plugin_token') ? project.plugin_username : System.getenv()['PLUGIN_TOKEN']
     channels 'stable'
 }
 
