@@ -135,7 +135,9 @@ ktlint {
 dependencies {
     compile "io.reactivex.rxjava2:rxjava:2.1.16"
     compile 'com.squareup.retrofit2:retrofit:2.4.0'
-    compile "com.schibsted.spain:retroswagger:1.1.0"
+    compile ("com.schibsted.spain:retroswagger:1.1.0") {
+        exclude group: 'org.slf4j'
+    }
 
     def jacksonVersion = '2.8.4'
     compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
