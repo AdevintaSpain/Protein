@@ -1,9 +1,9 @@
 package protein.ide.component
 
-import com.intellij.notification.NotificationType
-import com.intellij.notification.NotificationListener
-import com.intellij.notification.NotificationGroup
 import com.intellij.notification.NotificationDisplayType
+import com.intellij.notification.NotificationGroup
+import com.intellij.notification.NotificationListener
+import com.intellij.notification.NotificationType
 import com.intellij.notification.Notifications
 import com.intellij.openapi.project.Project
 

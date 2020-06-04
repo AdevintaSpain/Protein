@@ -1,1 +1,1 @@
-Solves issue with AS 3.5.1
+Ugraded to support latest IDE versions and libraries
