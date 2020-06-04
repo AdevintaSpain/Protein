@@ -1,9 +1,8 @@
 package protein
 
 import com.intellij.ui.wizard.WizardDialog
-
-import javax.swing.SwingUtilities
 import java.awt.Dimension
+import javax.swing.SwingUtilities
 
 class AddComponentWizard : WizardDialog<AddComponentWizardModel>(
     true, true, AddComponentWizardModel("Protein - Add new Component")) {
