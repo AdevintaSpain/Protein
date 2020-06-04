@@ -1,5 +1,5 @@
 <!--
-  Title: Protein - Kotlin code generator for Retrofit2 and RxJava2 based on Swagger
+  Title: Protein - Kotlin code generator for Retrofit2 and RxJava3 based on Swagger
   Description: Protein is a plugin for intelliJ that automates the build of "Agents" for Android in Kotlin. It generates the code for Retrofit based on a Swagger endpoint.
   Author: AdevintaSpain
   -->

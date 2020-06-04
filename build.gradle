@@ -103,7 +103,7 @@ twitterPlugin {
     consumerSecret = System.getenv()['TWITTER_API_SECRET']
     accessToken = System.getenv()['TWITTER_ACCESS_TOKEN']
     accessTokenSecret = System.getenv()['TWITTER_ACCESS_TOKEN_SECRET']
-    message = "New Protein version ${versionMajor}.${versionMinor}.${versionPatch} pushed to the IntelliJ Plugin repository. Protein is a Kotlin code generator for Retrofit 2 and RxJava 2 based on Swagger #kotlin #intelliJ #plugin https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder"
+    message = "New Protein version ${versionMajor}.${versionMinor}.${versionPatch} pushed to the IntelliJ Plugin repository. Protein is a Kotlin code generator for Retrofit 2 and RxJava 3 based on Swagger #kotlin #intelliJ #plugin https://plugins.jetbrains.com/plugin/10206-protein--android-component-builder"
 }
 
 tasks.withType(Javadoc).all {
