@@ -3,6 +3,7 @@ import com.schibsted.spain.retroswagger.lib.RetroswaggerApiConfiguration
 import com.squareup.kotlinpoet.TypeSpec
 import config.ConfigurationForTests
 import junit.framework.TestCase.assertEquals
+import mocks.BOT_FRAMEWORK_INTERFACE_MOCK
 import mocks.OPENSTF_INTERFACE_MOCK
 import mocks.PET_STORE_INTERFACE_MOCK
 import org.junit.Test
@@ -39,6 +40,16 @@ class KotlinApiBuilderShould {
       ConfigurationForTests.MODULE_NAME,
       ConfigurationForTests.SWAGGER_FILE_PET_STORE,
       true
+  )
+
+  private val botFrameworkSchemaProteinConfig = RetroswaggerApiConfiguration(
+    ConfigurationForTests.SERVICE_ENDPOINT,
+    "",
+    ConfigurationForTests.PACKAGE_NAME,
+    ConfigurationForTests.COMPONENT_NAME,
+    ConfigurationForTests.MODULE_NAME,
+    ConfigurationForTests.BOT_FRAMEWORK,
+    true
   )
 
   private val consoleLogTracking = ConsoleLogTracking()
@@ -103,6 +114,15 @@ class KotlinApiBuilderShould {
     assertEquals("",
         PET_STORE_INTERFACE_MOCK,
         getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
+  }
+
+  @Test
+  fun createInterfaceIfBotFrameworkSchemaFileProvided() {
+    val kotlinApiBuilder = RetroswaggerApiBuilder(botFrameworkSchemaProteinConfig, consoleLogTracking)
+    kotlinApiBuilder.build()
+    assertEquals("",
+      BOT_FRAMEWORK_INTERFACE_MOCK,
+      getGeneratedApiInterfaceString(kotlinApiBuilder.getGeneratedApiInterfaceTypeSpec()))
   }
 
   private fun getGeneratedApiInterfaceString(apiInterfaceTypeSpec: TypeSpec): String {

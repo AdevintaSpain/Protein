@@ -10,5 +10,6 @@ class ConfigurationForTests {
     const val SWAGGER_FILE_FAVORITES = "favorites.json"
     const val SWAGGER_FILE_OPENSTF = "openstf.json"
     const val SWAGGER_FILE_PET_STORE = "pet_store.json"
+    const val BOT_FRAMEWORK = "bot_framework.json"
   }
 }
